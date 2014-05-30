@@ -1,0 +1,14 @@
+{
+	"require": {
+		"nette/caching": "~2",
+		"nette/database": "~2",
+		"nette/utils": "~2"
+	},
+	"require-dev": {
+		"nette/tester": "~1.1",
+		"nette/neon": "~2"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	}
+}
