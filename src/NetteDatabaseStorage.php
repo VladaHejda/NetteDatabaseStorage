@@ -3,6 +3,7 @@
 namespace Nette\Caching\Storages;
 
 use Nette\Database\Context;
+use Nette\Caching\Cache;
 
 /**
  * Mysql database storage.
@@ -47,9 +48,6 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	}
 
 
-	/**
-	 * @todo $dependencies
-	 */
 	public function write($key, $data, array $dependencies)
 	{
 		$exists = $this->db->table($this->table)->where('key', $key)->update(['value' => serialize($data)]);
@@ -69,12 +67,11 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	}
 
 
-	/**
-	 * @todo FIX!
-	 */
 	public function clean(array $conditions)
 	{
-		$this->db->query("TRUNCATE TABLE `$this->table`");
+		if (!empty($conditions[Cache::ALL])) {
+			$this->db->table($this->table)->delete();
+		}
 	}
 
 

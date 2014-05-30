@@ -4,6 +4,9 @@ require 'bootstrap.php';
 
 use Tester\Assert;
 
+// cleanup after previously executed test
+$context->table($db['table'])->where('key', ['name', 'age', 'items'])->delete();
+
 // read unknown
 Assert::null($storage->read('name'));
 
