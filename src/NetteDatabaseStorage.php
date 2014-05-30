@@ -6,7 +6,7 @@ use Nette\Database\Context;
 use Nette\Caching\Cache;
 
 /**
- * Mysql database storage.
+ * Nette database storage.
  * Database table must contain columns `key` VARCHAR(64), `value` TEXT. See cache.sql file.
  */
 class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
@@ -48,6 +48,11 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	}
 
 
+	/**
+	 * @param string $key
+	 * @param mixed $data
+	 * @param array $dependencies
+	 */
 	public function write($key, $data, array $dependencies)
 	{
 		$exists = $this->db->table($this->table)->where('key', $key)->update(['value' => serialize($data)]);
@@ -61,12 +66,18 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	}
 
 
+	/**
+	 * @param string $key
+	 */
 	public function remove($key)
 	{
 		$this->db->table($this->table)->where('key', $key)->delete();
 	}
 
 
+	/**
+	 * @param array $conditions
+	 */
 	public function clean(array $conditions)
 	{
 		if (!empty($conditions[Cache::ALL])) {
