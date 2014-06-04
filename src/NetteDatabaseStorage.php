@@ -7,7 +7,7 @@ use Nette\Caching\Cache;
 
 /**
  * Nette database storage.
- * Database table must contain columns `key` INT UNSIGNED, `value` TEXT. See cache.sql file.
+ * Database table must contain columns `key` INT, `value` TEXT. See cache.sql file.
  */
 class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 {
@@ -93,7 +93,7 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 
 	protected function encodeKey($key)
 	{
-		// converts key into 4 bytes unsigned integer
-		return base_convert(substr(md5($key), 0, 8), 16, 10);
+		// converts key into 4 bytes SIGNED integer
+		return base_convert(substr(md5($key), 0, 8), 16, 10) - pow(2,31);
 	}
 }

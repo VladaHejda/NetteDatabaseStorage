@@ -10,7 +10,9 @@ Download [`src/NetteDatabaseStorage.php`](src/NetteDatabaseStorage.php).
 
 ### #2
 
-Create cache table in your database (see [`cache.sql`](cache.sql), you can change table name).
+Create cache table in your database (see [`mysql.cache.sql`](assets/mysql.cache.sql) or
+[`postgres.cache.sql`](assets/postgres.cache.sql), you can adapt script for another database server (not tested);
+you can change table name).
 
 ### #3
 
