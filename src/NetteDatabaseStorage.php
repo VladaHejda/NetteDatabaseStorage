@@ -7,7 +7,7 @@ use Nette\Caching\Cache;
 
 /**
  * Nette database storage.
- * Database table must contain columns `key` VARCHAR(64), `value` TEXT. See cache.sql file.
+ * Database table must contain columns `key` INT UNSIGNED, `value` TEXT. See cache.sql file.
  */
 class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 {
@@ -26,10 +26,6 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	 */
 	public function __construct(Context $db, $table = 'cache')
 	{
-		if ($table !== \Nette\Utils\Strings::webalize($table, '_')) {
-			throw new \Nette\MemberAccessException("Table name must be alphanumeric string, '$table' given.");
-		}
-
 		$this->db = $db;
 		$this->table = $table;
 	}
@@ -41,6 +37,7 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	 */
 	public function read($key)
 	{
+		$key = $this->encodeKey($key);
 		$data = $this->db->table($this->table)->where('key', $key)->fetch('value');
 		if (isset($data['value'])) {
 			return unserialize($data['value']);
@@ -55,6 +52,7 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	 */
 	public function write($key, $data, array $dependencies)
 	{
+		$key = $this->encodeKey($key);
 		$exists = $this->db->table($this->table)->where('key', $key)->update(['value' => serialize($data)]);
 
 		if (!$exists) {
@@ -71,6 +69,7 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 	 */
 	public function remove($key)
 	{
+		$key = $this->encodeKey($key);
 		$this->db->table($this->table)->where('key', $key)->delete();
 	}
 
@@ -88,5 +87,13 @@ class DatabaseStorage extends \Nette\Object implements \Nette\Caching\IStorage
 
 	public function lock($key)
 	{
+		$key = $this->encodeKey($key);
+	}
+
+
+	protected function encodeKey($key)
+	{
+		// converts key into 4 bytes unsigned integer
+		return base_convert(substr(md5($key), 0, 8), 16, 10);
 	}
 }

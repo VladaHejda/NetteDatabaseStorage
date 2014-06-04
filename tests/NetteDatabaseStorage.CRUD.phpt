@@ -4,8 +4,18 @@ require 'bootstrap.php';
 
 use Tester\Assert;
 
-// cleanup after previously executed test
-$context->table($db['table'])->where('key', ['name', 'age', 'items'])->delete();
+$testTempTable = 'NETTEDATABASESTORAGE_CRUD_TEST';
+
+$context->query("DROP TABLE IF EXISTS $testTempTable");
+$context->query("
+	CREATE TABLE $testTempTable (
+		`key` INT UNSIGNED NOT NULL,
+		`value` TEXT NOT NULL,
+		PRIMARY KEY (`key`)
+	) ENGINE=InnoDB
+");
+
+$storage = new \Nette\Caching\Storages\DatabaseStorage($context, $testTempTable);
 
 // read unknown
 Assert::null($storage->read('name'));
@@ -30,3 +40,5 @@ Assert::equal($items, $storage->read('items'));
 // remove
 $storage->remove('name');
 Assert::null($storage->read('name'));
+
+$context->query("DROP TABLE $testTempTable");

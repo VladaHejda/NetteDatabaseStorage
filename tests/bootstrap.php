@@ -13,5 +13,3 @@ $configuration = \Nette\Neon\Neon::decode(file_get_contents(__DIR__ . '/config/.
 $db = $configuration['db'];
 $connection = new \Nette\Database\Connection($db['dsn'], $db['user'], $db['password']);
 $context = new \Nette\Database\Context($connection, new \Nette\Database\Reflection\DiscoveredReflection($connection));
-
-$storage = new \Nette\Caching\Storages\DatabaseStorage($context, $db['table']);
