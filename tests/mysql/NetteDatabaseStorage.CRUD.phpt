@@ -1,21 +1,21 @@
 <?php
 
-require 'bootstrap.php';
+require '../bootstrap.php';
 
 use Tester\Assert;
 
 $testTempTable = 'NETTEDATABASESTORAGE_CRUD_TEST';
 
-$context->query("DROP TABLE IF EXISTS $testTempTable");
-$context->query("
+$mysqlContext->query("DROP TABLE IF EXISTS $testTempTable");
+$mysqlContext->query("
 	CREATE TABLE $testTempTable (
-		`key` INT UNSIGNED NOT NULL,
+		`key` INT NOT NULL,
 		`value` TEXT NOT NULL,
 		PRIMARY KEY (`key`)
 	) ENGINE=InnoDB
 ");
 
-$storage = new \Nette\Caching\Storages\DatabaseStorage($context, $testTempTable);
+$storage = new \Nette\Caching\Storages\DatabaseStorage($mysqlContext, $testTempTable);
 
 // read unknown
 Assert::null($storage->read('name'));
@@ -41,4 +41,4 @@ Assert::equal($items, $storage->read('items'));
 $storage->remove('name');
 Assert::null($storage->read('name'));
 
-$context->query("DROP TABLE $testTempTable");
+$mysqlContext->query("DROP TABLE $testTempTable");

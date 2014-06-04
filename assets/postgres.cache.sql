@@ -1,0 +1,5 @@
+CREATE TABLE cache (
+	key INTEGER NOT NULL,
+	value TEXT NOT NULL,
+	PRIMARY KEY (key)
+);
