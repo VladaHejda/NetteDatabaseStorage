@@ -9,8 +9,8 @@ $testTempTable = 'NETTEDATABASESTORAGE_CRUD_TEST';
 $mysqlContext->query("DROP TABLE IF EXISTS $testTempTable");
 $mysqlContext->query("
 	CREATE TABLE $testTempTable (
-		`key` INT NOT NULL,
-		`value` TEXT NOT NULL,
+		`key` BIGINT NOT NULL,
+		`value` BLOB NOT NULL,
 		PRIMARY KEY (`key`)
 	) ENGINE=InnoDB
 ");

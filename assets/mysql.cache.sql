@@ -1,5 +1,5 @@
 CREATE TABLE cache (
-	`key` INT NOT NULL,
-	value TEXT NOT NULL,
+	`key` BIGINT NOT NULL,
+	value BLOB NOT NULL,
 	PRIMARY KEY (`key`)
 );

@@ -9,7 +9,7 @@ $testTempTable = 'NETTEDATABASESTORAGE_CRUD_TEST';
 $postgresContext->query("DROP TABLE IF EXISTS $testTempTable");
 $postgresContext->query("
 	CREATE TABLE $testTempTable (
-		key INTEGER NOT NULL,
+		key BIGINT NOT NULL,
 		value TEXT NOT NULL,
 		PRIMARY KEY (key)
 	)
