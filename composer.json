@@ -1,4 +1,13 @@
 {
+	"name": "vladahejda/nettedatabasestorage",
+	"description": "Nette Database Caching Storage",
+	"license": ["BSD-3-Clause"],
+	"authors": [
+		{
+			"name": "Vladislav Hejda",
+			"homepage": "http://hejdav.cz"
+		}
+	],
 	"require": {
 		"nette/caching": "~2",
 		"nette/database": "~2",
